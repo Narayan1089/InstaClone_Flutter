@@ -4,9 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:insta_clone/resources/auth_methods.dart';
+import 'package:insta_clone/responsive/mobile_screen_layout.dart';
+import 'package:insta_clone/responsive/responsive_layout_screen.dart';
+import 'package:insta_clone/responsive/web_screen_layout.dart';
 import 'package:insta_clone/utils/colors.dart';
 import 'package:insta_clone/utils/utils.dart';
 import 'package:insta_clone/widgets/text_field_input.dart';
+
+import 'login_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -42,27 +47,39 @@ class _LoginScreenState extends State<SignupScreen> {
   }
 
   void signUpUser() async {
+    // set loading to true
     setState(() {
       _isLoading = true;
     });
 
+    // signup user using our authmethodds
     String res = await AuthMethods().signUpUser(
-      email: _emailController.text,
-      password: _passwordController.text,
-      username: _userNameController.text,
-      bio: _bioController.text,
-      file: _image!,
-    );
-
-    setState(() {
-      _isLoading = false;
-    });
-
-    if (res != 'success') {
+        email: _emailController.text,
+        password: _passwordController.text,
+        username: _userNameController.text,
+        bio: _bioController.text,
+        file: _image!);
+    // if string returned is sucess, user has been created
+    if (res == "success") {
+      setState(() {
+        _isLoading = false;
+      });
+      // navigate to the home screen
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+            mobileScreenLayout: MobileScreenLayout(),
+            webScreenLayout: WebScreenLayout(),
+          ),
+        ),
+      );
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      // show the error
       showSnackBar(context, res);
     }
-
-    print(res);
   }
 
   @override
@@ -185,7 +202,11 @@ class _LoginScreenState extends State<SignupScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 8),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const LoginScreen(),
+                      ),
+                    ),
                     child: Container(
                       child: const Text(
                         "Log In",

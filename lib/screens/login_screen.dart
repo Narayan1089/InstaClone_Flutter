@@ -4,6 +4,7 @@ import 'package:insta_clone/resources/auth_methods.dart';
 import 'package:insta_clone/responsive/mobile_screen_layout.dart';
 import 'package:insta_clone/responsive/responsive_layout_screen.dart';
 import 'package:insta_clone/responsive/web_screen_layout.dart';
+import 'package:insta_clone/screens/signup_screen.dart';
 import 'package:insta_clone/utils/colors.dart';
 import 'package:insta_clone/utils/utils.dart';
 import 'package:insta_clone/widgets/text_field_input.dart';
@@ -22,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void dispose() {
+    // ignore: todo
     // TODO: implement dispose
     super.dispose();
     _emailController.dispose();
@@ -127,7 +129,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 8),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const SignupScreen(),
+                      ),
+                    ),
                     child: Container(
                       child: const Text(
                         "Sign Up",
