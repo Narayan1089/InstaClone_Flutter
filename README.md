@@ -1,6 +1,6 @@
 # insta_clone
 
-A new Flutter project.
+A new Flutter project with most of the firebase functions.
 
 ## Getting Started
 
